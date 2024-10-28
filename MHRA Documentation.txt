@@ -1,0 +1,31 @@
+MHRA DOCUMENTATION
+
+Hello and Welcome.
+
+step 1 clone the project
+
+step 2 composer install
+
+step 3 npm install
+
+step 4 cp .env.example .env
+
+step 5 php artisan key:generate
+
+step 6 php artisan migrate
+
+step 7 php artisan db:seed 
+
+step 8 open two command prompts and run 
+* php artisan serve
+* npm run dev
+
+optionally you can run 
+
+npm run build
+php artisan ide-helper:generate
+if you have any trouble but you probably woudnt.
+
+thanks and goodbye.
+
+
