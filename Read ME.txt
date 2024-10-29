@@ -1,0 +1,10 @@
+public library
+
+step 1 import the database 
+
+step 2 go to http://localhost/2nd_Project/php/create.php to create a admin profile 
+
+step 3 enjoy!
+
+
+the user dashboard is not functional its just for design the notes comments are and the admin dashboard is functional with the nesseccary crud operations.

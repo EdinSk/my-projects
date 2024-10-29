@@ -6,44 +6,46 @@ session_start();
 $user = new USER();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['inputEmail'], $_POST['inputPassword'])) {
+    if (isset($_POST['inputEmail'], $_POST['inputPassword']) && !empty($_POST['inputPassword'])) {
+        // Sanitize and validate email
         $email = filter_var($_POST['inputEmail'], FILTER_SANITIZE_EMAIL);
         $password = $_POST['inputPassword'];
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // Attempt to authenticate the user
             $userData = $user->loginUser($email, $password);
 
-        
-
             if ($userData) {
-                $_SESSION['user_id'] = $userData['id'];
+                // Set session variables on successful login
+                $_SESSION['user_id'] = $userData['user_id'];
                 $_SESSION['username'] = $userData['username'];
                 $_SESSION['role'] = $userData['role'];
+                $_SESSION['email'] = $userData['email']; // Add email to session
 
-                if ($userData['role'] == 'admin') {
-                    header("Location: ../admin_dashboard/admin.php");
-                    exit();
-                } else {
-                    header("Location: ../user_dashboard/user_dashboard.php");
-                    exit();
-                }
+                // Regenerate session ID to prevent session fixation
+                session_regenerate_id(true);
+
+                // Redirect based on user role
+                $redirectUrl = $userData['role'] === 'admin' ? "../admin_dashboard/admin.php" : "../user_dashboard/user_dashboard.php";
+                header("Location: $redirectUrl");
+                exit();
             } else {
-                // Authentication failed
-                header("Location: ../login.html?error=Invalid email or password.");
+                // Redirect for failed authentication
+                header("Location: ../login.php?error=Invalid email or password.");
                 exit();
             }
         } else {
-            // Invalid email format
-            header("Location: ../login.html?error=Invalid email format.");
+            // Redirect for invalid email format
+            header("Location: ../login.php?error=Invalid email format.");
             exit();
         }
     } else {
-        // Missing POST data
-        header("Location: ../login.html?error=Missing email or password.");
+        // Redirect for missing email or password
+        header("Location: ../login.php?error=Missing email or password.");
         exit();
     }
 } else {
-    header("Location: ../login.html?error=Invalid request.");
+    // Redirect for invalid request method
+    header("Location: ../login.php?error=Invalid request.");
     exit();
 }
-?>

@@ -1,1 +1,0 @@
-za administrator ima craete.php koe ke go vneses za da se kreira user so admin role so hashiran password, bidejki drugacie nemam napraveno da se napravi user so admin role. 
